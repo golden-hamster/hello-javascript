@@ -1,11 +1,10 @@
 package com.example.Restfulapiboard.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @ToString(callSuper = true)
@@ -17,4 +16,24 @@ public class Comment extends AuditingFields{
     private Long id;
 
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "article_id")
+    private Article article;
+
+    protected Comment() {}
+
+    private Comment(String content, Member member, Article article) {
+        this.content = content;
+        this.member = member;
+        this.article = article;
+    }
+
+    public static Comment of(String content, Member member, Article article) {
+        return new Comment(content, member, article);
+    }
 }

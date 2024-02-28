@@ -1,6 +1,6 @@
 package com.example.Restfulapiboard.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @ToString(callSuper = true)
 @Entity
-public class Article {
+public class Article extends AuditingFields{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +23,6 @@ public class Article {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-
-    @ToString.Exclude
-    @OrderBy("createdAt DESC")
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Comment> comments = new LinkedHashSet<>();
-
 
     protected Article() {}
 
