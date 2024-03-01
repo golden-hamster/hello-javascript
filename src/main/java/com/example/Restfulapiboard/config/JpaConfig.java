@@ -1,6 +1,7 @@
 package com.example.Restfulapiboard.config;
 
 import com.example.Restfulapiboard.domain.Member;
+import com.example.Restfulapiboard.dto.MemberDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -25,8 +26,8 @@ public class JpaConfig {
 
 //                 인증된 사용자인 경우
             Object principal = authentication.getPrincipal();
-            if (principal instanceof Member) {
-                return Optional.of(((Member) principal).getUsername());
+            if (principal instanceof MemberDto) {
+                return Optional.of(((MemberDto) principal).getUsername());
             }
             return Optional.empty();
         };

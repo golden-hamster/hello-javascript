@@ -3,7 +3,6 @@ package com.example.Restfulapiboard.dto;
 import com.example.Restfulapiboard.domain.Article;
 import com.example.Restfulapiboard.domain.Member;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record ArticleDto(
@@ -15,8 +14,8 @@ public record ArticleDto(
         String createdBy,
         String modifiedBy,
         LocalDateTime modifiedAt
-){
-public static ArticleDto of(MemberDto memberDto, String title, String content) {
+) {
+    public static ArticleDto of(MemberDto memberDto, String title, String content) {
         return new ArticleDto(null, memberDto, title, content, null, null, null, null);
     }
 

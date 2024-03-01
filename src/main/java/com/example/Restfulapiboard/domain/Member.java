@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @ToString(callSuper = true)
 @Entity
-public class Member implements UserDetails {
+public class Member{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +34,4 @@ public class Member implements UserDetails {
         return new Member(username, password);
     }
 
-    @Override public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-    @Override public String getUsername() {return username;}
-    @Override public String getPassword() {return password;}
-    @Override public boolean isAccountNonExpired() {return true;}
-    @Override public boolean isAccountNonLocked() {return true;}
-    @Override public boolean isCredentialsNonExpired() {return true;}
-    @Override public boolean isEnabled() {return true;}
 }
