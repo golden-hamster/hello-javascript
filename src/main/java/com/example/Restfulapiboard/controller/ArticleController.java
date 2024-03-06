@@ -29,9 +29,9 @@ public class ArticleController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<Page<ArticleResponse>> articles(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<ArticleResponse> articles = articleService.findAll(pageable).map(ArticleResponse::from);
-        return ResponseEntity.ok(articles);
+    public ResponseEntity<Page<ArticleResponse>> getAllArticles(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<ArticleResponse> allArticles = articleService.findAll(pageable).map(ArticleResponse::from);
+        return ResponseEntity.ok(allArticles);
     }
 
     @PostMapping
@@ -43,7 +43,7 @@ public class ArticleController {
 
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<ArticleResponse> article(@PathVariable Long articleId) {
+    public ResponseEntity<ArticleResponse> getArticle(@PathVariable Long articleId) {
         ArticleResponse articleResponse = ArticleResponse.from(articleService.findById(articleId));
         return ResponseEntity.ok(articleResponse);
     }
