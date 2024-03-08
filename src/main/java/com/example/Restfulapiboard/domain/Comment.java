@@ -3,11 +3,15 @@ package com.example.Restfulapiboard.domain;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
 @Getter
 @ToString(callSuper = true)
+@SQLDelete(sql = "UPDATE comment SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Entity
 public class Comment extends AuditingFields{
 
@@ -24,6 +28,8 @@ public class Comment extends AuditingFields{
     @ManyToOne
     @JoinColumn(name = "article_id")
     private Article article;
+
+    private Boolean deleted = Boolean.FALSE;
 
     protected Comment() {}
 
