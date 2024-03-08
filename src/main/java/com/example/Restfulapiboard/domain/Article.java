@@ -3,12 +3,16 @@ package com.example.Restfulapiboard.domain;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
 @ToString(callSuper = true)
+@SQLDelete(sql = "UPDATE article SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Entity
 public class Article extends AuditingFields{
 
@@ -24,6 +28,8 @@ public class Article extends AuditingFields{
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private Boolean deleted = Boolean.FALSE;
+
     protected Article() {}
 
     private Article(Member member, String title, String content) {
@@ -34,6 +40,21 @@ public class Article extends AuditingFields{
 
     public static Article of(Member member, String title, String content) {
         return new Article(member, title, content);
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public boolean isAuthor(Long memberId) {
+        if (memberId == null) {
+            return false;
+        }
+        return member.getId().equals(memberId);
     }
 
 }

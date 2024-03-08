@@ -1,12 +1,9 @@
 package com.example.Restfulapiboard.controller;
 
-import com.example.Restfulapiboard.domain.Article;
-import com.example.Restfulapiboard.domain.Member;
-import com.example.Restfulapiboard.dto.ArticleDto;
 import com.example.Restfulapiboard.dto.MemberDto;
 import com.example.Restfulapiboard.dto.request.ArticleRequest;
+import com.example.Restfulapiboard.dto.request.ArticleUpdateRequest;
 import com.example.Restfulapiboard.dto.response.ArticleResponse;
-import com.example.Restfulapiboard.repository.MemberRepository;
 import com.example.Restfulapiboard.service.ArticleService;
 import com.example.Restfulapiboard.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +34,7 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<Void> createArticle(@RequestBody ArticleRequest articleRequest,
                                               @AuthenticationPrincipal MemberDto memberDto) {
-        Long articleId = articleService.save(articleRequest.toDto(memberDto));
+        Long articleId = articleService.saveArticle(articleRequest.toDto(memberDto));
         return ResponseEntity.created(URI.create("/api/articles/" + articleId)).build();
     }
 
@@ -46,6 +43,20 @@ public class ArticleController {
     public ResponseEntity<ArticleResponse> getArticle(@PathVariable Long articleId) {
         ArticleResponse articleResponse = ArticleResponse.from(articleService.findById(articleId));
         return ResponseEntity.ok(articleResponse);
+    }
+
+    @PutMapping("/{articleId}")
+    public ResponseEntity<Void> updateArticle(@PathVariable Long articleId,
+                                              @RequestBody ArticleUpdateRequest articleUpdateRequest,
+                                              @AuthenticationPrincipal MemberDto memberDto) {
+        articleService.updateArticle(articleId, articleUpdateRequest.toDto(memberDto));
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{articleId}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable Long articleId, @AuthenticationPrincipal MemberDto memberDto) {
+        articleService.deleteArticle(articleId, memberDto);
+        return ResponseEntity.noContent().build();
     }
 
 }
