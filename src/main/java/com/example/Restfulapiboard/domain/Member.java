@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @ToString(callSuper = true)
 @Entity
-public class Member{
+public class Member extends AuditingFields{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
