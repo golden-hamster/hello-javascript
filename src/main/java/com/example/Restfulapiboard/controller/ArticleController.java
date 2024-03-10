@@ -26,7 +26,7 @@ public class ArticleController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<Page<ArticleResponse>> getAllArticles(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<ArticleResponse>> findAllArticles(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ArticleResponse> allArticles = articleService.findAll(pageable).map(ArticleResponse::from);
         return ResponseEntity.ok(allArticles);
     }
@@ -40,7 +40,7 @@ public class ArticleController {
 
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<ArticleResponse> getArticle(@PathVariable Long articleId) {
+    public ResponseEntity<ArticleResponse> findArticle(@PathVariable Long articleId) {
         ArticleResponse articleResponse = ArticleResponse.from(articleService.findById(articleId));
         return ResponseEntity.ok(articleResponse);
     }
