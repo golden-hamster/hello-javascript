@@ -4,6 +4,7 @@ import com.example.Restfulapiboard.dto.MemberDto;
 import com.example.Restfulapiboard.dto.request.ArticleRequest;
 import com.example.Restfulapiboard.dto.request.ArticleUpdateRequest;
 import com.example.Restfulapiboard.dto.response.ArticleResponse;
+import com.example.Restfulapiboard.dto.response.ArticlesResponse;
 import com.example.Restfulapiboard.service.ArticleService;
 import com.example.Restfulapiboard.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,10 @@ public class ArticleController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<Page<ArticleResponse>> findAllArticles(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<ArticleResponse> allArticles = articleService.findAll(pageable).map(ArticleResponse::from);
-        return ResponseEntity.ok(allArticles);
+    public ResponseEntity<ArticlesResponse> findArticles(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<ArticleResponse> articles = articleService.findAll(pageable).map(ArticleResponse::from);
+        ArticlesResponse articlesResponse = ArticlesResponse.from(articles);
+        return ResponseEntity.ok(articlesResponse);
     }
 
     @PostMapping
@@ -37,7 +39,6 @@ public class ArticleController {
         Long articleId = articleService.saveArticle(articleRequest.toDto(memberDto));
         return ResponseEntity.created(URI.create("/api/articles/" + articleId)).build();
     }
-
 
     @GetMapping("/{articleId}")
     public ResponseEntity<ArticleResponse> findArticle(@PathVariable Long articleId) {

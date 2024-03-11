@@ -19,6 +19,6 @@ public class CommentService {
     }
 
     public List<CommentDto> findComments(Long articleId) {
-        return commentRepository.findByArticleId(articleId).stream().map(CommentDto::from).toList();
+         return commentRepository.findByArticleId(articleId).stream().map(CommentDto::from).toList();
     }
 }
