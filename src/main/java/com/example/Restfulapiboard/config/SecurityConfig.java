@@ -29,8 +29,10 @@ public class SecurityConfig {
                         .mvcMatchers(   // 특정 경로에 대한 접근 허용
                                 HttpMethod.GET,
                                 "/",
-                                "/articles",
-                                "/articles/search-hashtag",
+                                "/api/articles",
+                                "/api/articles/{}",
+                                "/api/articles/search-hashtag",
+                                "/api/articles/{}/comments",
                                 "/members/form",
                                 "/members"
                         ).permitAll()
