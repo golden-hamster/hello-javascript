@@ -4,7 +4,6 @@ import com.example.Restfulapiboard.domain.Article;
 import com.example.Restfulapiboard.domain.Comment;
 import com.example.Restfulapiboard.domain.Member;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record CommentDto(

@@ -18,7 +18,7 @@ public class CommentController {
 
     @GetMapping("/{articleId}/comments")
     public ResponseEntity<CommentsResponse> findComments(@PathVariable Long articleId) {
-        List<CommentResponse> comments = commentService.findComments(articleId).stream().map(CommentResponse::from).toList();
+        List<CommentResponse> comments = commentService.findByArticleId(articleId).stream().map(CommentResponse::from).toList();
         int numOfComment = comments.size();
         CommentsResponse commentsResponse = CommentsResponse.from(comments, numOfComment);
         return ResponseEntity.ok(commentsResponse);
