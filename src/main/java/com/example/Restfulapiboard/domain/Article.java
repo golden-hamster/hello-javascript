@@ -24,11 +24,13 @@ public class Article extends AuditingFields{
 
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     private Boolean deleted = Boolean.FALSE;
+
+    private Integer commentsCount = 0;
 
     protected Article() {}
 
