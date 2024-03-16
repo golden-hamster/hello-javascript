@@ -26,7 +26,7 @@ public class InitDb {
             em.persist(member);
 
             //글 생성
-            for (int j = 1; j <= 500; j++) {
+            for (int j = 1; j <= 100; j++) {
                 Article article = Article.of(member, "Test title" + j, "Content is...");
                 article.setCreatedBy(member.getUsername());
                 em.persist(article);
