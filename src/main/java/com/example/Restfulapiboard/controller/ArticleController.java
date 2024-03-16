@@ -6,7 +6,7 @@ import com.example.Restfulapiboard.dto.request.ArticleUpdateRequest;
 import com.example.Restfulapiboard.dto.response.ArticleResponse;
 import com.example.Restfulapiboard.dto.response.ArticlesResponse;
 import com.example.Restfulapiboard.service.ArticleService;
-import com.example.Restfulapiboard.service.MemberService;
+import com.example.Restfulapiboard.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +24,7 @@ import java.net.URI;
 public class ArticleController {
 
     private final ArticleService articleService;
-    private final MemberService memberService;
+    private final CommentService commentService;
 
     @GetMapping
     public ResponseEntity<ArticlesResponse> findArticles(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
@@ -34,8 +34,8 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createArticle(@RequestBody ArticleRequest articleRequest,
-                                              @AuthenticationPrincipal MemberDto memberDto) {
+    public ResponseEntity<Void> saveArticle(@RequestBody ArticleRequest articleRequest,
+                                            @AuthenticationPrincipal MemberDto memberDto) {
         Long articleId = articleService.saveArticle(articleRequest.toDto(memberDto));
         return ResponseEntity.created(URI.create("/api/articles/" + articleId)).build();
     }

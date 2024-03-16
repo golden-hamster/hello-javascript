@@ -59,4 +59,8 @@ public class Article extends AuditingFields{
         return member.getId().equals(memberId);
     }
 
+    public void addCommentsCount() {
+        this.commentsCount++;
+    }
+
 }

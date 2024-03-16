@@ -9,7 +9,8 @@ public record ArticleResponse(
         String title,
         String content,
         String createdBy,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        Integer commentsCount
 ) {
 
     public static ArticleResponse from(ArticleDto articleDto) {
@@ -18,7 +19,8 @@ public record ArticleResponse(
                 articleDto.title(),
                 articleDto.content(),
                 articleDto.createdBy(),
-                articleDto.createdAt()
+                articleDto.createdAt(),
+                articleDto.commentsCount()
         );
     }
 }
