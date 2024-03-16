@@ -4,7 +4,6 @@ import com.example.Restfulapiboard.dto.MemberDto;
 import com.example.Restfulapiboard.dto.request.CommentRequest;
 import com.example.Restfulapiboard.dto.response.CommentResponse;
 import com.example.Restfulapiboard.dto.response.CommentsResponse;
-import com.example.Restfulapiboard.service.ArticleService;
 import com.example.Restfulapiboard.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
-    private final ArticleService articleService;
 
     @GetMapping("/{articleId}/comments")
     public ResponseEntity<CommentsResponse> findComments(@PathVariable Long articleId) {
