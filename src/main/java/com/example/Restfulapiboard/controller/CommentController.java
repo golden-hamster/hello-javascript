@@ -35,4 +35,11 @@ public class CommentController {
         return ResponseEntity.created(URI.create("/comments/" + commentId)).build();
     }
 
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId,
+                                              @AuthenticationPrincipal MemberDto memberDto) {
+        commentService.deleteComment(commentId, memberDto);
+        return ResponseEntity.noContent().build();
+    }
+
 }

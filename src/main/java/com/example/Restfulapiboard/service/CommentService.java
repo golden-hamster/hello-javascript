@@ -1,9 +1,12 @@
 package com.example.Restfulapiboard.service;
 
 import com.example.Restfulapiboard.domain.Article;
+import com.example.Restfulapiboard.domain.Comment;
 import com.example.Restfulapiboard.domain.Member;
 import com.example.Restfulapiboard.dto.CommentDto;
 import com.example.Restfulapiboard.dto.MemberDto;
+import com.example.Restfulapiboard.exception.AuthorizationException;
+import com.example.Restfulapiboard.exception.CommentNotFoundException;
 import com.example.Restfulapiboard.repository.ArticleRepository;
 import com.example.Restfulapiboard.repository.CommentRepository;
 import com.example.Restfulapiboard.repository.MemberRepository;
@@ -34,17 +37,24 @@ public class CommentService {
         return commentRepository.findByArticleId(articleId).size();
     }
 
-    //    @Transactional
-//    public void saveComment(CommentDto commentDto) {
-//        Member member = memberRepository.findByUsername(commentDto.memberDto().username()).orElseThrow(IllegalArgumentException::new);
-//        Article article = articleRepository.findById(commentDto.articleDto().id()).orElseThrow(IllegalArgumentException::new);
-//        commentRepository.save(commentDto.toEntity(member, article));
-//    }
     @Transactional
     public Long saveComment(Long articleId, CommentDto commentDto, MemberDto memberDto) {
         Member member = memberRepository.findById(memberDto.id()).orElseThrow(IllegalArgumentException::new);
         Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
         article.addCommentsCount();
         return commentRepository.save(commentDto.toEntity(member, article)).getId();
+    }
+
+    @Transactional
+    public void deleteComment(Long commentId, MemberDto memberDto) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
+        validateAuthor(memberDto, comment);
+        commentRepository.deleteById(commentId);
+    }
+
+    private void validateAuthor(MemberDto memberDto, Comment comment) {
+        if (!comment.isAuthor(memberDto.id())) {
+            throw new AuthorizationException();
+        }
     }
 }
