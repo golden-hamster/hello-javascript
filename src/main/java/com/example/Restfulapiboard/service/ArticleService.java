@@ -4,6 +4,7 @@ import com.example.Restfulapiboard.domain.Article;
 import com.example.Restfulapiboard.domain.Member;
 import com.example.Restfulapiboard.dto.ArticleDto;
 import com.example.Restfulapiboard.dto.MemberDto;
+import com.example.Restfulapiboard.exception.ArticleNotFoundException;
 import com.example.Restfulapiboard.exception.AuthorizationException;
 import com.example.Restfulapiboard.repository.ArticleRepository;
 import com.example.Restfulapiboard.repository.MemberRepository;
@@ -45,8 +46,9 @@ public class ArticleService {
 
     @Transactional
     public void deleteArticle(Long id, MemberDto memberDto) {
-        Article article = articleRepository.findById(id).orElseThrow(IllegalAccessError::new);
+        Article article = articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
         validateAuthor(memberDto, article);
+        articleRepository.delete(article);
     }
 
     private void validateAuthor(MemberDto memberDto, Article article) {
