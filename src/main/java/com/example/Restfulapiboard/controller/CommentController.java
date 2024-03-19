@@ -14,20 +14,20 @@ import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/articles")
+@RequestMapping("/api")
 @RestController
 public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/{articleId}/comments")
+    @GetMapping("/articles/{articleId}/comments")
     public ResponseEntity<CommentsResponse> findComments(@PathVariable Long articleId) {
         List<CommentResponse> comments = commentService.findByArticleId(articleId).stream().map(CommentResponse::from).toList();
         CommentsResponse commentsResponse = CommentsResponse.from(comments);
         return ResponseEntity.ok(commentsResponse);
     }
 
-    @PostMapping("/{articleId}/comments")
+    @PostMapping("/articles/{articleId}/comments")
     public ResponseEntity<Void> saveComment(@PathVariable Long articleId,
                                             @RequestBody CommentRequest commentRequest,
                                             @AuthenticationPrincipal MemberDto memberDto) {
